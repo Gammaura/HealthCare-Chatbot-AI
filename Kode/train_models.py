@@ -13,8 +13,11 @@ from sklearn.metrics import classification_report
 # ======================================================
 os.makedirs("models", exist_ok=True)
 
-DATASET_PATH = "Kode/data/dataset_bayes_randomforest.csv"
-MODEL_DIR = "Kode/models"
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+DATASET_PATH = os.path.join(BASE_DIR, "data/dataset_bayes_randomforest.csv")
+MODEL_DIR = os.path.join(BASE_DIR, "models")
 NOISE_RATE = 0.1
 
 # ======================================================

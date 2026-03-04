@@ -74,10 +74,14 @@ st.markdown("""
 @st.cache_resource
 def load_models_and_data():
     try:
-        df = pd.read_csv("Kode/data/dataset_bayes_randomforest.csv")
-        model_nb = joblib.load("Kode/models/model_nb_gejala.pkl")
-        model_rf = joblib.load("Kode/models/model_rf_gejala.pkl")
-        feature_cols = joblib.load("Kode/models/feature_cols.pkl")
+        import os
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+        # Lalu ubah semua path
+        df = pd.read_csv(os.path.join(BASE_DIR, "data/dataset_bayes_randomforest.csv"))
+        model_nb = joblib.load(os.path.join(BASE_DIR, "models/model_nb_gejala.pkl"))
+        model_rf = joblib.load(os.path.join(BASE_DIR, "models/model_rf_gejala.pkl"))
+        feature_cols = joblib.load(os.path.join(BASE_DIR, "models/feature_cols.pkl"))
         
         label_col = "Label_Penyakit"
         disease_name_col = "Nama_Penyakit"

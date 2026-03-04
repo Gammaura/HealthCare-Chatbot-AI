@@ -5,12 +5,13 @@ import joblib
 # ===============================
 # LOAD FEATURE MODEL
 # ===============================
+# Sebelum
 feature_cols = joblib.load("models/feature_cols.pkl")
 
-def normalize(text: str):
-    text = text.lower()
-    text = re.sub(r'[^a-z\s]', ' ', text)
-    return re.sub(r'\s+', ' ', text).strip()
+# Ganti jadi
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+feature_cols = joblib.load(os.path.join(BASE_DIR, "models/feature_cols.pkl"))
 
 # ===============================
 # MASTER SYMPTOM REGEX (REAL NLP)
