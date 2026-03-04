@@ -1,5 +1,7 @@
+streamlit>=1.28.0
 pandas
 numpy
-scikit-learn
-streamlit
 joblib
+scikit-learn
+altair>=5.0.0
+fpdf
