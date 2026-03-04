@@ -13,10 +13,17 @@ from symptom_mapping import text_to_symptom_vector
 # ---------------------------------------------------------
 import os
 import subprocess
+import sys
 
-if not os.path.exists("models/model_rf_gejala.pkl"):
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+if not os.path.exists(os.path.join(BASE_DIR, "models/feature_cols.pkl")):
     with st.spinner("⏳ Sedang menyiapkan model AI, mohon tunggu..."):
-        subprocess.run(["python", "train_models.py"], check=True)
+        subprocess.run(
+            [sys.executable, os.path.join(BASE_DIR, "train_models.py")],
+            cwd=BASE_DIR,  # jalankan dari folder Kode/
+            check=True
+        )
 
 # ---------------------------------------------------------
 # 1. KONFIGURASI HALAMAN & CSS
