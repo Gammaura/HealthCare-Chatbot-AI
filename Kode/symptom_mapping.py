@@ -1,17 +1,18 @@
 import re
 import numpy as np
 import joblib
+import os
 
 # ===============================
 # LOAD FEATURE MODEL
 # ===============================
-# Sebelum
-feature_cols = joblib.load("models/feature_cols.pkl")
-
-# Ganti jadi
-import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 feature_cols = joblib.load(os.path.join(BASE_DIR, "models/feature_cols.pkl"))
+
+def normalize(text: str):
+    text = text.lower()
+    text = re.sub(r'[^a-z\s]', ' ', text)
+    return re.sub(r'\s+', ' ', text).strip()
 
 # ===============================
 # MASTER SYMPTOM REGEX (REAL NLP)
@@ -142,6 +143,11 @@ SYMPTOM_MAP = {
 }
 
 # ===============================
+# NEGATION PATTERN
+# ===============================
+NEGATION_WORDS = r"(tidak|ga|gak|enggak|bukan|tanpa|tak|nggak|no)\s+"
+
+# ===============================
 def text_to_symptom_vector(text: str):
     text = normalize(text)
 
@@ -149,8 +155,15 @@ def text_to_symptom_vector(text: str):
 
     for symptom, patterns in SYMPTOM_MAP.items():
         for p in patterns:
-            if re.search(p, text):
-                flags[symptom] = 1
+            match = re.search(p, text)
+            if match:
+                # Cek apakah ada kata negasi sebelum symptom
+                start = match.start()
+                prefix = text[max(0, start-20):start]  # ambil 20 karakter sebelum keyword
+                if re.search(NEGATION_WORDS + r"$", prefix):
+                    flags[symptom] = 0  # dinegasi, abaikan
+                else:
+                    flags[symptom] = 1
                 break
 
     x = np.array([[flags[col] for col in feature_cols]])
