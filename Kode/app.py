@@ -9,6 +9,16 @@ from datetime import datetime
 from symptom_mapping import text_to_symptom_vector
 
 # ---------------------------------------------------------
+# 0. AUTO-TRAIN JIKA MODEL BELUM ADA
+# ---------------------------------------------------------
+import os
+import subprocess
+
+if not os.path.exists("models/model_rf_gejala.pkl"):
+    with st.spinner("⏳ Sedang menyiapkan model AI, mohon tunggu..."):
+        subprocess.run(["python", "train_models.py"], check=True)
+
+# ---------------------------------------------------------
 # 1. KONFIGURASI HALAMAN & CSS
 # ---------------------------------------------------------
 st.set_page_config(page_title="HealthCare - AI Health", page_icon="🩺", layout="wide")
@@ -64,10 +74,10 @@ st.markdown("""
 @st.cache_resource
 def load_models_and_data():
     try:
-        df = pd.read_csv("data/dataset_bayes_randomforest.csv")
-        model_nb = joblib.load("models/model_nb_gejala.pkl")
-        model_rf = joblib.load("models/model_rf_gejala.pkl")
-        feature_cols = joblib.load("models/feature_cols.pkl")
+        df = pd.read_csv("Kode/data/dataset_bayes_randomforest.csv")
+        model_nb = joblib.load("Kode/models/model_nb_gejala.pkl")
+        model_rf = joblib.load("Kode/models/model_rf_gejala.pkl")
+        feature_cols = joblib.load("Kode/models/feature_cols.pkl")
         
         label_col = "Label_Penyakit"
         disease_name_col = "Nama_Penyakit"
