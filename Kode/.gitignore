@@ -1,0 +1,24 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Model files (opsional, kalau ukurannya besar)
+# models/*.pkl
+
+# Logs
+*.log
+chat_log.csv
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode
+.vscode/
